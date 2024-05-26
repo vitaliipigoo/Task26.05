@@ -19,7 +19,6 @@ namespace Wheel_of_Luck.Services
 
         public void OpenWheelOfLuck(Transform canvas)
         {
-            Debug.Log("Success");
             InitAdapter(canvas);
         }
 

@@ -7,15 +7,14 @@ namespace Wheel_of_Luck.AssetPackage.Scripts
 {
     public class WheelOfLuckPopup : MonoBehaviour
     {
+        private static WheelOfLuckPopup _instance;
+        
         public Action CloseButtonClick;
         public Action SpinButtonClick;
         
         [SerializeField] private WheelView wheel;
         [SerializeField] private Button closeButton;
         [SerializeField] private Button spinButton;
-
-        private WheelOfLuckConfigurationModel _config;
-        private int _spinCounter;
 
         public void OnDestroy()
         {
@@ -25,12 +24,20 @@ namespace Wheel_of_Luck.AssetPackage.Scripts
 
         public void InitView(WheelOfLuckConfigurationModel config)
         {
-            _config = config;
-            wheel.InitView(config.Rewards);
+            wheel.InitView(config);
         }
 
         private void Awake()
         {
+            if (_instance != null)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            DontDestroyOnLoad(gameObject);
+            _instance = this;
+            
             AddButtonsListeners();
         }
 
@@ -49,11 +56,6 @@ namespace Wheel_of_Luck.AssetPackage.Scripts
         private void OnSpinClick()
         {
             SpinButtonClick?.Invoke();
-
-            _spinCounter++;
-            if (_spinCounter > _config.Attempts)
-                return;
-            
             wheel.SpinTheWheel();
         }
     }

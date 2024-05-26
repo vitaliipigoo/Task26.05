@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Wheel_of_Luck.Models;
+using Random = UnityEngine.Random;
 
 namespace Wheel_of_Luck.AssetPackage.Scripts
 {
@@ -9,25 +12,32 @@ namespace Wheel_of_Luck.AssetPackage.Scripts
     {
         [SerializeField] private List<WedgeView> wedgeViews;
         
+        private WheelOfLuckConfigurationModel _config;
         private int _winSector;
         private int _numberOfTurns;
         private int _winAngle;
         private float _speed;
         private bool _canWeSpin;
+        private int _spinCounter;
 
         private void Start() => _canWeSpin = true;
         
-        public void InitView(List<RewardModel> rewards)
+        public void InitView(WheelOfLuckConfigurationModel config)
         {
-            for (int i = 0; i < wedgeViews.Count; i++)
-            {
-                wedgeViews[i].InitView(rewards[i]);
-            }
+            _config = config;
+            
+            var shuffledNumbers = _config.Rewards.GetRange(0, 8).OrderBy(x => Guid.NewGuid()).ToList();
+            for (int i = 0; i < wedgeViews.Count; i++) 
+                wedgeViews[i].InitView(shuffledNumbers[i]);
         }
 
         public void SpinTheWheel()
         {
             if (!_canWeSpin)
+                return;
+            
+            _spinCounter++;
+            if (_spinCounter > _config.Attempts)
                 return;
 
             StartCoroutine(SpinTheWheelInternal());

@@ -10,11 +10,17 @@ namespace Wheel_of_Luck.AssetPackage.Scripts
         [SerializeField] private Image rewardImage;
         [SerializeField] private Text rewardAmount;
 
+        private string _type;
+        private int _amount;
+
         public void InitView(RewardModel rewardModel)
         {
+            _type = rewardModel.Type;
+            _amount = rewardModel.Amount;
+            
             rewardImage.sprite = FindObjectOfType<RewardSpritesPool>().GetComponent<RewardSpritesPool>()
-                .GetSpriteByName(rewardModel.Type);
-            rewardAmount.text = rewardModel.Amount.ToString();
+                .GetSpriteByName(_type);
+            rewardAmount.text = _amount.ToString();
 
             if (!rewardModel.Consumable)
                 rewardAmount.gameObject.SetActive(false);
