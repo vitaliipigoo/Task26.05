@@ -9,6 +9,7 @@ namespace Wheel_of_Luck.Services
     public class WheelOfLuckService : IWheelOfLuckService
     {
         private WheelOfLuckPopupAdapter _wofPopupAdapter;
+        
         private readonly WheelOfLuckConfiguration _wofConfiguration;
 
         public WheelOfLuckService(WheelOfLuckConfiguration wofConfiguration)
@@ -33,6 +34,7 @@ namespace Wheel_of_Luck.Services
             var instance = Object.Instantiate(prefab, canvas);
 
             _wofPopupAdapter = new WheelOfLuckPopupAdapter(instance);
+            _wofPopupAdapter.Init();
         }
     }
 }
