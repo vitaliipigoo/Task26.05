@@ -1,16 +1,29 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using Wheel_of_Luck.Models;
 
 namespace Wheel_of_Luck.AssetPackage.Scripts
 {
     public class WheelView : MonoBehaviour
     {
+        [SerializeField] private List<WedgeView> wedgeViews;
+        
+        private int _winSector;
         private int _numberOfTurns;
         private int _winAngle;
         private float _speed;
         private bool _canWeSpin;
 
         private void Start() => _canWeSpin = true;
+        
+        public void InitView(List<RewardModel> rewards)
+        {
+            for (int i = 0; i < wedgeViews.Count; i++)
+            {
+                wedgeViews[i].InitView(rewards[i]);
+            }
+        }
 
         public void SpinTheWheel()
         {
@@ -45,12 +58,12 @@ namespace Wheel_of_Luck.AssetPackage.Scripts
                 transform.Rotate(0, 0, 22.5f);
 
             _winAngle = Mathf.RoundToInt(transform.eulerAngles.z);
-            var winSector = GetWinSector(_winAngle);
+            _winSector = GetWinSector(_winAngle);
 
             _canWeSpin = true;
         }
 
-        private object GetWinSector(int whatWeWin)
+        private int GetWinSector(int whatWeWin)
         {
             var winSector = whatWeWin switch
             {

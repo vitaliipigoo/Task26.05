@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Wheel_of_Luck.Models;
 
 namespace Wheel_of_Luck.AssetPackage.Scripts
 {
@@ -13,10 +14,19 @@ namespace Wheel_of_Luck.AssetPackage.Scripts
         [SerializeField] private Button closeButton;
         [SerializeField] private Button spinButton;
 
+        private WheelOfLuckConfigurationModel _config;
+        private int _spinCounter;
+
         public void OnDestroy()
         {
             closeButton.onClick.RemoveAllListeners();
             spinButton.onClick.RemoveAllListeners();
+        }
+
+        public void InitView(WheelOfLuckConfigurationModel config)
+        {
+            _config = config;
+            wheel.InitView(config.Rewards);
         }
 
         private void Awake()
@@ -39,6 +49,11 @@ namespace Wheel_of_Luck.AssetPackage.Scripts
         private void OnSpinClick()
         {
             SpinButtonClick?.Invoke();
+
+            _spinCounter++;
+            if (_spinCounter > _config.Attempts)
+                return;
+            
             wheel.SpinTheWheel();
         }
     }

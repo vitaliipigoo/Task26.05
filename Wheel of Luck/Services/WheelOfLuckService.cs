@@ -33,7 +33,7 @@ namespace Wheel_of_Luck.Services
             var prefab = Resources.Load<GameObject>(Constants.WheelOfLuckResourceName);
             var instance = Object.Instantiate(prefab, canvas);
 
-            _wofPopupAdapter = new WheelOfLuckPopupAdapter(instance);
+            _wofPopupAdapter = new WheelOfLuckPopupAdapter(instance, _wofConfiguration);
             _wofPopupAdapter.Init();
         }
     }
