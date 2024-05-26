@@ -9,6 +9,7 @@ namespace Wheel_of_Luck.AssetPackage.Scripts
         public Action CloseButtonClick;
         public Action SpinButtonClick;
         
+        [SerializeField] private WheelView wheel;
         [SerializeField] private Button closeButton;
         [SerializeField] private Button spinButton;
 
@@ -38,6 +39,7 @@ namespace Wheel_of_Luck.AssetPackage.Scripts
         private void OnSpinClick()
         {
             SpinButtonClick?.Invoke();
+            wheel.SpinTheWheel();
         }
     }
 }
