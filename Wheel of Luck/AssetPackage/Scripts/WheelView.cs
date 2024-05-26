@@ -12,6 +12,7 @@ namespace Wheel_of_Luck.AssetPackage.Scripts
     {
         [SerializeField] private List<WedgeView> wedgeViews;
         [SerializeField] private WinPopupView winPopup;
+        [SerializeField] private PurchasePopupView purchasePopup;
         
         private WheelOfLuckConfigurationModel _config;
         private int _winSector;
@@ -21,8 +22,6 @@ namespace Wheel_of_Luck.AssetPackage.Scripts
         private bool _canWeSpin;
         private int _spinCounter;
 
-        private void Start() => _canWeSpin = true;
-        
         public void InitView(WheelOfLuckConfigurationModel config)
         {
             _config = config;
@@ -40,9 +39,22 @@ namespace Wheel_of_Luck.AssetPackage.Scripts
             _spinCounter++;
             if (_spinCounter > _config.Attempts)
                 return;
+            if (_spinCounter == 1 && !_config.IsFirstAttemptFree || _spinCounter > 1)
+            {
+                ShowPurchasePopup();
+                return;
+            }
 
             StartCoroutine(SpinTheWheelInternal());
         }
+
+        private void Start()
+        {
+            _canWeSpin = true;
+            SubscribeEvents();
+        }
+
+        private void OnDestroy() => UnsubscribeEvents();
 
         private IEnumerator SpinTheWheelInternal()
         {
@@ -84,6 +96,11 @@ namespace Wheel_of_Luck.AssetPackage.Scripts
             winWedge.InitView(_config.Rewards[7+_spinCounter]);
         }
 
+        private void ShowPurchasePopup()
+        {
+            purchasePopup.gameObject.SetActive(true);
+        }
+
         private int GetWinSector(int whatWeWin)
         {
             var winSector = whatWeWin switch
@@ -100,6 +117,24 @@ namespace Wheel_of_Luck.AssetPackage.Scripts
             };
             
             return winSector;
+        }
+        
+        private void OnPurchaseButtonClick()
+        {
+            if (_spinCounter > _config.Attempts)
+                return;
+
+            StartCoroutine(SpinTheWheelInternal());
+        }
+        
+        private void SubscribeEvents()
+        {
+            purchasePopup.PurchaseButtonClick += OnPurchaseButtonClick;
+        }
+
+        private void UnsubscribeEvents()
+        {
+            purchasePopup.PurchaseButtonClick -= OnPurchaseButtonClick;
         }
     }
 }

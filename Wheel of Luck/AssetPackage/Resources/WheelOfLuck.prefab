@@ -222,6 +222,7 @@ GameObject:
   - component: {fileID: 2963401953828270498}
   - component: {fileID: 7789746050422893133}
   - component: {fileID: 8651341275544186703}
+  - component: {fileID: 6946846854849933136}
   m_Layer: 5
   m_Name: PurchasePopup
   m_TagString: Untagged
@@ -288,6 +289,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6946846854849933136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 794568902118650133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebe43ff75e8146a29dcdc56547ee9b4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  purchaseButton: {fileID: 3806581820239478188}
 --- !u!1 &2205339333030065508
 GameObject:
   m_ObjectHideFlags: 0
@@ -1281,6 +1295,7 @@ MonoBehaviour:
   - {fileID: 945542141468860463}
   - {fileID: 3342083008477953485}
   winPopup: {fileID: 4725257243705853532}
+  purchasePopup: {fileID: 6946846854849933136}
 --- !u!1 &8482656815066436586
 GameObject:
   m_ObjectHideFlags: 0
