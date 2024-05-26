@@ -2,12 +2,11 @@ using UnityEngine;
 using Wheel_of_Luck.AssetPackage.Scripts;
 using Wheel_of_Luck.Models;
 using Wheel_of_Luck.Scripts.Configurations;
-using Zenject;
 using Constants = Wheel_of_Luck.Scripts.Constants.Constants;
 
 namespace Wheel_of_Luck.Services
 {
-    public class WheelOfLuckService : IWheelOfLuckService, IInitializable
+    public class WheelOfLuckService : IWheelOfLuckService
     {
         private WheelOfLuckPopupAdapter _wofPopupAdapter;
         private readonly WheelOfLuckConfiguration _wofConfiguration;
@@ -15,31 +14,25 @@ namespace Wheel_of_Luck.Services
         public WheelOfLuckService(WheelOfLuckConfiguration wofConfiguration)
         {
             _wofConfiguration = wofConfiguration;
-            
-            Initialize();
-        }
-
-        public void Initialize()
-        {
-            InitAdapter();
-        }
-
-        private void InitAdapter()
-        {
-            var prefab = Resources.Load<GameObject>(Constants.WheelOfLuckResourceName);
-            var instance = Object.Instantiate(prefab);
-
-            _wofPopupAdapter = new WheelOfLuckPopupAdapter(instance);
         }
 
         public void OpenWheelOfLuck(Transform canvas)
         {
-            
+            Debug.Log("Success");
+            InitAdapter(canvas);
         }
 
         public void OpenWheelOfLuck(WheelOfLuckConfigurationModel config, Transform canvas)
         {
-            
+            // TODO: for configurations from remote
+        }
+
+        private void InitAdapter(Transform canvas)
+        {
+            var prefab = Resources.Load<GameObject>(Constants.WheelOfLuckResourceName);
+            var instance = Object.Instantiate(prefab, canvas);
+
+            _wofPopupAdapter = new WheelOfLuckPopupAdapter(instance);
         }
     }
 }
