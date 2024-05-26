@@ -2,5 +2,7 @@
   "name": "com.test.wheelofluck",
   "version": "1.0.0",
   "displayName": "Wheel of Luck",
-  "dependencies": {  }
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
+  }
 }
