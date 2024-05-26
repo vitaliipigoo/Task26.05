@@ -11,6 +11,7 @@ namespace Wheel_of_Luck.AssetPackage.Scripts
     public class WheelView : MonoBehaviour
     {
         [SerializeField] private List<WedgeView> wedgeViews;
+        [SerializeField] private WinPopupView winPopup;
         
         private WheelOfLuckConfigurationModel _config;
         private int _winSector;
@@ -69,8 +70,18 @@ namespace Wheel_of_Luck.AssetPackage.Scripts
 
             _winAngle = Mathf.RoundToInt(transform.eulerAngles.z);
             _winSector = GetWinSector(_winAngle);
+            yield return new WaitForSeconds(1);
+            ShowWinPopup();
 
             _canWeSpin = true;
+        }
+
+        private void ShowWinPopup()
+        {
+            var winWedge = wedgeViews[_winSector];
+            winPopup.gameObject.SetActive(true);
+            winPopup.SetText(winWedge.type, winWedge.amount.ToString());
+            winWedge.InitView(_config.Rewards[7+_spinCounter]);
         }
 
         private int GetWinSector(int whatWeWin)
